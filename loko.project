@@ -1,0 +1,1043 @@
+{
+  "name": "project_example",
+  "id": "project_example",
+  "description": "",
+  "created_on": "15/05/2023, 07:33:37",
+  "last_modify": "30/05/2023, 12:05:18",
+  "graphs": {
+    "main": {
+      "nodes": [
+        {
+          "id": "d67d9e18-011d-429c-8473-40c0e8867153",
+          "position": {
+            "x": 1395.3924043922495,
+            "y": 488.7556938740951
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 60,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "pname": "loko-vision",
+            "name": "Vision",
+            "events": {
+              "type": "vision",
+              "field": "predictor_name_fit"
+            },
+            "description": "\n### Description\n\nVISION is the Loko AI component which allows to classify images either using a pre-trained Neural Networks, or using a transfer-learning model over one of them. Specifically, VISION helps you with training, predicting and managing your models.\n\n### Configuration\n\nThe heading ***Available services*** allows user to select the VISION instance of interest (remembering that different vision-models will necessarily be found on different instances). \n\nIf you just want to use a pre-trained Neural Network in order to classify your set of images, you can directly link a *File Reader* component to the *Predict* Inputs of VISION. \nMore information about pre-trained models can be found here https://keras.io/api/applications/, where you can see details on their network structure and performances. \nIf you decide to classify your image directly using one of the pre-trained Neural Networks, you should expect to receive as output one of the 1000 possible ImageNet classes.\n\nIf you want to create a transfer-learning model to customize your classifier on your own data, follow these steps:\n\n\n- **Create a model:** in *Create parameters* choose the name of the model you want to create (*Vision Model Name*) and select the pre-trained models to use (*Pretrained Models*). Then, link a *Trigger* component to the **Create** input;\n\n- **Fit a model:** in *Fit parameters* choose the name of the model you want to train (*Vision Model*), and use a *File Reader* to pass a zipped folder to the VISION component ***Fit*** input.\n\n- **Get prediction with a model:** in *Predict parameters* you can set the model to use (*Vision Model*) choosing between the customized models and the pre-trained NN. Then, you can choose if you want to see directly the predicted class or the probability of each of them, setting the **Predict proba** parameters. \nIf you use a customized model, you can also decide to see predictions as a **generic Multi-Class** or as a **Multi-Label model**; in the latter case, if you don't want to see the probability of belonging to each class you can set the value of the **MultiLabel Threshold**, that indicate the minimum probability value in order to assign a specific class.\n\n\nYou may also want to:\n\n\n- **Delete a model:** in the section *delete parameters* specify the model you want to delete. It's possible to delete only the customized models.\n\n- **Get information about a model:** in *info parameters* you have to set the model name and then choose if you just want to know if the model is fitted and the pre-trained model used, or if you want **advanced** information.\n\n\n\n\n### Output\n\nFor **Create, Fit and Delete** services the output messages will only be a sentence that confirms that the required action has been finalized. For the *fit* service it may take a while to have the output back, depending on how much the fitting lasts.\n\n\nThe output for the **info** services change if the model has already been fitted or not, and based on the setting chosen regarding advanced information. In case the model has been fitted and advanced information was activated the output will be the following:\n\n```json\n{\"predictor_name\": name of the model chosen, \n\"pretrained_model\": name of the pretrained model chosen,\n\"top_layer\": {\"n_layer\":1,\n    \"n_classes\": number of classes,\n    \"metrics\": [\"accuracy\"],\n    \"loss_function\": \"binary_crossentropy\",\n    \"epochs\":100},\n\"fitted\": say if the model was trained or not}\n```\n\nIn case the model *is not fitted* or *the advanced information* is not activated, the output will be the same without the \"top layer\" information.\n\nThe **predict** service has different output based on the settings chosen. If the field *predict proba* has been selected, we can see the probabilities next to each labels:\n\n```json\n{\"fname\": name of the file used for the prediction, \n\"pred\": [[\"cat\",0.9996217489242554],\n        [\"dog\",0.001642674207687378]]}\n```\n\nOtherwise, the output will be:\n\n```json\n{\"fname\": name of the file used for the prediction, \n\"pred\": \"cat\"}\n```\n\nIf *multilabel* is selected the output will be:\n\n```\n{\"fname\": name of the file used for the prediction, \n\"pred\": [\"cat\", \"persian\",\"black\"]}\n```\n",
+            "inputs": [
+              {
+                "id": "fit",
+                "label": "fit",
+                "service": "loko-services/fit",
+                "to": "fit"
+              },
+              {
+                "id": "predict",
+                "label": "predict",
+                "service": "loko-services/predict",
+                "to": "predict"
+              },
+              {
+                "id": "evaluate",
+                "label": "evaluate",
+                "service": "loko-services/evaluate",
+                "to": "evaluate"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "fit",
+                "label": "fit"
+              },
+              {
+                "id": "predict",
+                "label": "predict"
+              },
+              {
+                "id": "evaluate",
+                "label": "evaluate"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "ComputerVision",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "predictor_name_fit",
+                  "type": "asyncSelect",
+                  "label": "Vision Model",
+                  "helper": "Name of the model you want to use for fitting",
+                  "group": "Fit parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models?info=false&model_type=custom"
+                },
+                {
+                  "name": "epochs",
+                  "type": "number",
+                  "label": "Model epochs",
+                  "helper": "",
+                  "group": "Fit parameters",
+                  "value": 150,
+                  "description": "Number of epochs to train the Neural Network",
+                  "validation": null
+                },
+                {
+                  "name": "optimizer",
+                  "type": "select",
+                  "label": "Optimizer",
+                  "helper": "",
+                  "group": "Fit parameters",
+                  "value": "Adam",
+                  "description": "Optimizer to use for the Neural Network training",
+                  "validation": null,
+                  "options": [
+                    "SGD",
+                    "RMSprop",
+                    "Adam",
+                    "AdamW",
+                    "Adadelta",
+                    "Adagrad",
+                    "Adamax",
+                    "Adafactor",
+                    "Nadam",
+                    "Ftrl"
+                  ]
+                },
+                {
+                  "name": "metrics",
+                  "type": "text",
+                  "label": "Metrics",
+                  "helper": "Insert the name of the metrics, comma separeted. E.g.: accuracy,mse,precision",
+                  "group": "Fit parameters",
+                  "value": "accuracy, ",
+                  "description": "Metrics to compute",
+                  "validation": null
+                },
+                {
+                  "name": "predictor_name_predict",
+                  "type": "asyncSelect",
+                  "label": "Vision Model",
+                  "helper": "Name of the model you want to use for predicting",
+                  "group": "Predict parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models"
+                },
+                {
+                  "name": "include_probs",
+                  "type": "boolean",
+                  "label": "Predict proba",
+                  "helper": "",
+                  "group": "Predict parameters",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "probability_th",
+                  "type": "dynamic",
+                  "label": "Probability Threshold",
+                  "helper": "Set this value to 0.0 if you want to have all the model's classes",
+                  "group": "Predict parameters",
+                  "value": 0.01,
+                  "description": "The probability threshold level represents the miminum probability that a class needs to have in order to be \"shown\" in the results",
+                  "validation": null,
+                  "parent": "include_probs",
+                  "condition": "{parent}===true",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "multilabel",
+                  "type": "boolean",
+                  "label": "Multilabel",
+                  "helper": "",
+                  "group": "Predict parameters",
+                  "value": false,
+                  "description": "If True the results will be seen as a MultiLabel problem, otherwise as a MultiClass",
+                  "validation": null
+                },
+                {
+                  "name": "multilabel_threshold",
+                  "type": "dynamic",
+                  "label": "Multilabel Threshold",
+                  "helper": "Threshold rate to decide the belongings to one class for the MultiLabel",
+                  "group": "Predict parameters",
+                  "value": "0.5",
+                  "description": "",
+                  "validation": null,
+                  "parent": "multilabel",
+                  "condition": "{parent}===true",
+                  "dynamicType": "select",
+                  "options": [
+                    "0.5",
+                    "0.6",
+                    "0.7",
+                    "0.8",
+                    "0.9"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "predictor_name_eval",
+                  "type": "asyncSelect",
+                  "label": "Vision Model",
+                  "helper": "Name of the model you want to evaluate",
+                  "group": "Evaluate Parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models?info=false&model_type=custom"
+                }
+              ],
+              "click": null,
+              "icon": "RiImage2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "epochs": "500",
+                "optimizer": "Adam",
+                "metrics": "accuracy, ",
+                "include_probs": true,
+                "multilabel": false,
+                "probability_th": "0.0",
+                "predictor_name_fit": "angle3",
+                "predictor_name_predict": "test-interni-esterni",
+                "predictor_name_eval": ""
+              }
+            },
+            "status": "Ep 398/1000 - loss: 0.007",
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1395.3924043922495,
+            "y": 488.7556938740951
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "44a4ece6-b603-4512-8128-bbf9483c9163",
+          "position": {
+            "x": 810.8457130206762,
+            "y": 306.6338703083084
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 156,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "File Reader",
+            "events": null,
+            "description": "### Description\nThe FILE READER component allows the reading of individual files.\n\n### Output\nSetting the **Read Content** parameter to **False**, the output provides the file path in PosixPath format. The component will then need to be connected to other components to read the content, for example *LineReader*.\n\nOn the contrary, setting the **Read Content** parameter to **True**, you can choose whether to read the content in *Binary* format. This format will be selected for reading non-text files.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Inputs",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "files",
+                  "label": "File",
+                  "fragment": "files",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "read_content",
+                  "type": "boolean",
+                  "label": "Read content"
+                },
+                {
+                  "name": "binary",
+                  "type": "dynamic",
+                  "label": "Binary",
+                  "dynamicType": {
+                    "true": "boolean"
+                  },
+                  "parent": "read_content"
+                }
+              ],
+              "click": "Send file",
+              "icon": "RiFileList3Fill",
+              "values": {
+                "comment": "",
+                "alias": "TRAIN SUBJECT",
+                "debug": false,
+                "read_content": false,
+                "value": {
+                  "name": "subject.zip",
+                  "path": "data/subject.zip",
+                  "parent": "data",
+                  "isDir": false,
+                  "hidden": false
+                }
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 810.8457130206762,
+            "y": 306.6338703083084
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "5e2eac43-eae4-4cde-b0d3-6a1a51e99600",
+          "position": {
+            "x": 848.3340273079356,
+            "y": 83.83119342711345
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "pname": "loko-vision",
+            "name": "Vision Manager",
+            "events": null,
+            "description": "\n### Description\n\nVISION is the Loko AI component which allows to classify images either using a pre-trained Neural Networks, or using a transfer-learning model over one of them. Specifically, VISION helps you with training, predicting and managing your models.\n\n### Configuration\n\nThe heading ***Available services*** allows user to select the VISION instance of interest (remembering that different vision-models will necessarily be found on different instances). \n\nIf you just want to use a pre-trained Neural Network in order to classify your set of images, you can directly link a *File Reader* component to the *Predict* Inputs of VISION. \nMore information about pre-trained models can be found here https://keras.io/api/applications/, where you can see details on their network structure and performances. \nIf you decide to classify your image directly using one of the pre-trained Neural Networks, you should expect to receive as output one of the 1000 possible ImageNet classes.\n\nIf you want to create a transfer-learning model to customize your classifier on your own data, follow these steps:\n\n\n- **Create a model:** in *Create parameters* choose the name of the model you want to create (*Vision Model Name*) and select the pre-trained models to use (*Pretrained Models*). Then, link a *Trigger* component to the **Create** input;\n\n- **Fit a model:** in *Fit parameters* choose the name of the model you want to train (*Vision Model*), and use a *File Reader* to pass a zipped folder to the VISION component ***Fit*** input.\n\n- **Get prediction with a model:** in *Predict parameters* you can set the model to use (*Vision Model*) choosing between the customized models and the pre-trained NN. Then, you can choose if you want to see directly the predicted class or the probability of each of them, setting the **Predict proba** parameters. \nIf you use a customized model, you can also decide to see predictions as a **generic Multi-Class** or as a **Multi-Label model**; in the latter case, if you don't want to see the probability of belonging to each class you can set the value of the **MultiLabel Threshold**, that indicate the minimum probability value in order to assign a specific class.\n\n\nYou may also want to:\n\n\n- **Delete a model:** in the section *delete parameters* specify the model you want to delete. It's possible to delete only the customized models.\n\n- **Get information about a model:** in *info parameters* you have to set the model name and then choose if you just want to know if the model is fitted and the pre-trained model used, or if you want **advanced** information.\n\n\n\n\n### Output\n\nFor **Create, Fit and Delete** services the output messages will only be a sentence that confirms that the required action has been finalized. For the *fit* service it may take a while to have the output back, depending on how much the fitting lasts.\n\n\nThe output for the **info** services change if the model has already been fitted or not, and based on the setting chosen regarding advanced information. In case the model has been fitted and advanced information was activated the output will be the following:\n\n```json\n{\"predictor_name\": name of the model chosen, \n\"pretrained_model\": name of the pretrained model chosen,\n\"top_layer\": {\"n_layer\":1,\n    \"n_classes\": number of classes,\n    \"metrics\": [\"accuracy\"],\n    \"loss_function\": \"binary_crossentropy\",\n    \"epochs\":100},\n\"fitted\": say if the model was trained or not}\n```\n\nIn case the model *is not fitted* or *the advanced information* is not activated, the output will be the same without the \"top layer\" information.\n\nThe **predict** service has different output based on the settings chosen. If the field *predict proba* has been selected, we can see the probabilities next to each labels:\n\n```json\n{\"fname\": name of the file used for the prediction, \n\"pred\": [[\"cat\",0.9996217489242554],\n        [\"dog\",0.001642674207687378]]}\n```\n\nOtherwise, the output will be:\n\n```json\n{\"fname\": name of the file used for the prediction, \n\"pred\": \"cat\"}\n```\n\nIf *multilabel* is selected the output will be:\n\n```\n{\"fname\": name of the file used for the prediction, \n\"pred\": [\"cat\", \"persian\",\"black\"]}\n```\n",
+            "inputs": [
+              {
+                "id": "create",
+                "label": "create",
+                "service": "loko-services/create",
+                "to": "create"
+              },
+              {
+                "id": "info",
+                "label": "info",
+                "service": "loko-services/info",
+                "to": "info"
+              },
+              {
+                "id": "delete",
+                "label": "delete",
+                "service": "loko-services/delete",
+                "to": "delete"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "create",
+                "label": "create"
+              },
+              {
+                "id": "info",
+                "label": "info"
+              },
+              {
+                "id": "delete",
+                "label": "delete"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "ComputerVision",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "predictor_name",
+                  "type": "text",
+                  "label": "Vision Model Name",
+                  "helper": "Name of the model you want to use for fitting/predicting",
+                  "group": "Create Parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "pretrained_model",
+                  "type": "asyncSelect",
+                  "label": "Pretrained model",
+                  "helper": "choose your pretrained NN",
+                  "group": "Create Parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models?model_type=pretrained"
+                },
+                {
+                  "name": "predictor_tag",
+                  "type": "text",
+                  "label": "Model tag",
+                  "helper": "Create a tag that helps you to recognize the aim of the model",
+                  "group": "Create Parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "predictor_name_info",
+                  "type": "asyncSelect",
+                  "label": "Vision Model",
+                  "helper": "Name of the model you want to know details about",
+                  "group": "Info parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models?info=false&model_type=custom"
+                },
+                {
+                  "name": "adv_info",
+                  "type": "boolean",
+                  "label": "Advanced information",
+                  "helper": "",
+                  "group": "Info parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "predictor_name_delete",
+                  "type": "asyncSelect",
+                  "label": "Vision Model",
+                  "helper": "Name of the model you want to delete",
+                  "group": "Delete parameters",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "url": "http://localhost:9999/routes/loko-vision/models?info=false&model_type=custom"
+                }
+              ],
+              "click": null,
+              "icon": "RiSettings5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "predictor_name": "angle3",
+                "predictor_tag": "",
+                "adv_info": false,
+                "pretrained_model": "ResNet50",
+                "predictor_name_info": "",
+                "predictor_name_delete": ""
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 848.3340273079356,
+            "y": 83.83119342711345
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "2eab6569-ad2c-4da8-90a0-62f81eba4521",
+          "position": {
+            "x": 546.0947878654763,
+            "y": -18.425720963003556
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Trigger",
+            "events": null,
+            "description": "### Description\nThe TRIGGER component is used to start streams.\n\n### Output\nThe parameter Type can be set as a **String** or an **Object**. The parameter Value, on the other hand, defines the actual output of the component.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "description": "The type of data",
+                  "label": "Type",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": [
+                    "String",
+                    "Object"
+                  ],
+                  "value": null
+                },
+                {
+                  "name": "value",
+                  "type": "dynamic",
+                  "dynamicType": {
+                    "String": "area",
+                    "Object": "code"
+                  },
+                  "parent": "type",
+                  "label": "Value",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": "Send message",
+              "icon": "RiPlayFill",
+              "values": {
+                "type": "String",
+                "value": "Hello world!"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 546.0947878654763,
+            "y": -18.425720963003556
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "ece9ab3b-79be-47af-b2d6-9868faf1f8a8",
+          "position": {
+            "x": 556.9522214654054,
+            "y": 87.60773032229989
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Trigger",
+            "events": null,
+            "description": "### Description\nThe TRIGGER component is used to start streams.\n\n### Output\nThe parameter Type can be set as a **String** or an **Object**. The parameter Value, on the other hand, defines the actual output of the component.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "description": "The type of data",
+                  "label": "Type",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": [
+                    "String",
+                    "Object"
+                  ],
+                  "value": null
+                },
+                {
+                  "name": "value",
+                  "type": "dynamic",
+                  "dynamicType": {
+                    "String": "area",
+                    "Object": "code"
+                  },
+                  "parent": "type",
+                  "label": "Value",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": "Send message",
+              "icon": "RiPlayFill",
+              "values": {
+                "type": "String",
+                "value": "Hello world!"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 556.9522214654054,
+            "y": 87.60773032229989
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "9cde2387-d4bc-431a-9321-26703d3eba08",
+          "position": {
+            "x": 762.303449650679,
+            "y": 443.3647597924633
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 214,
+          "height": 104,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "File Reader",
+            "events": null,
+            "description": "### Description\nThe FILE READER component allows the reading of individual files.\n\n### Output\nSetting the **Read Content** parameter to **False**, the output provides the file path in PosixPath format. The component will then need to be connected to other components to read the content, for example *LineReader*.\n\nOn the contrary, setting the **Read Content** parameter to **True**, you can choose whether to read the content in *Binary* format. This format will be selected for reading non-text files.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Inputs",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "files",
+                  "label": "File",
+                  "fragment": "files",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "read_content",
+                  "type": "boolean",
+                  "label": "Read content"
+                },
+                {
+                  "name": "binary",
+                  "type": "dynamic",
+                  "label": "Binary",
+                  "dynamicType": {
+                    "true": "boolean"
+                  },
+                  "parent": "read_content"
+                }
+              ],
+              "click": "Send file",
+              "icon": "RiFileList3Fill",
+              "values": {
+                "comment": "",
+                "alias": "abart esterno test",
+                "debug": false,
+                "read_content": false,
+                "value": {
+                  "name": "abarth-595-8.jpg",
+                  "path": "data/abarth-595-8.jpg",
+                  "parent": "data",
+                  "isDir": false,
+                  "hidden": false
+                }
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 762.303449650679,
+            "y": 443.3647597924633
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "e465e034-13a5-44c9-97fc-18c6c16cada7",
+          "position": {
+            "x": 753.1962057205518,
+            "y": 584.7778482029686
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 156,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "File Reader",
+            "events": null,
+            "description": "### Description\nThe FILE READER component allows the reading of individual files.\n\n### Output\nSetting the **Read Content** parameter to **False**, the output provides the file path in PosixPath format. The component will then need to be connected to other components to read the content, for example *LineReader*.\n\nOn the contrary, setting the **Read Content** parameter to **True**, you can choose whether to read the content in *Binary* format. This format will be selected for reading non-text files.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Inputs",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "files",
+                  "label": "File",
+                  "fragment": "files",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "read_content",
+                  "type": "boolean",
+                  "label": "Read content"
+                },
+                {
+                  "name": "binary",
+                  "type": "dynamic",
+                  "label": "Binary",
+                  "dynamicType": {
+                    "true": "boolean"
+                  },
+                  "parent": "read_content"
+                }
+              ],
+              "click": "Send file",
+              "icon": "RiFileList3Fill",
+              "values": {
+                "comment": "",
+                "alias": "sedili interno test",
+                "debug": false,
+                "read_content": false,
+                "value": {
+                  "name": "riparazione-sedile-auto.jpg",
+                  "path": "data/riparazione-sedile-auto.jpg",
+                  "parent": "data",
+                  "isDir": false,
+                  "hidden": false
+                }
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 753.1962057205518,
+            "y": 584.7778482029686
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "0a43fafa-390a-41a3-84b6-dc53839681dd",
+          "position": {
+            "x": 486.4720374175919,
+            "y": -63.03653793107625
+          },
+          "type": "comment",
+          "dragHandle": "#commentHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 633.7578898945676,
+          "height": 279.82047978080385,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "comment": "Manage Vision",
+            "fill": "#277DA1",
+            "height": 279.82047978080385,
+            "width": 633.7578898945676
+          },
+          "zIndex": -1,
+          "selectable": false,
+          "connectable": false,
+          "positionAbsolute": {
+            "x": 486.4720374175919,
+            "y": -63.03653793107625
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "f74a2d18-1563-4648-aff4-7015918e885f",
+          "position": {
+            "x": 545.6242603922357,
+            "y": 259.283645008293
+          },
+          "type": "comment",
+          "dragHandle": "#commentHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 1267.1204981963951,
+          "height": 483.26326157932704,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "comment": "Fit and predict (internal or external vehicle recognition)",
+            "fill": "#90BE6D",
+            "height": 483.26326157932704,
+            "width": 1267.1204981963951
+          },
+          "zIndex": -1,
+          "selectable": false,
+          "connectable": false,
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-44a4ece6-b603-4512-8128-bbf9483c9163output-d67d9e18-011d-429c-8473-40c0e8867153fit",
+          "source": "44a4ece6-b603-4512-8128-bbf9483c9163",
+          "sourceHandle": "output",
+          "target": "d67d9e18-011d-429c-8473-40c0e8867153",
+          "targetHandle": "fit",
+          "data": {
+            "startColor": "#F8637A",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-2eab6569-ad2c-4da8-90a0-62f81eba4521output-5e2eac43-eae4-4cde-b0d3-6a1a51e99600create",
+          "source": "2eab6569-ad2c-4da8-90a0-62f81eba4521",
+          "sourceHandle": "output",
+          "target": "5e2eac43-eae4-4cde-b0d3-6a1a51e99600",
+          "targetHandle": "create",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-ece9ab3b-79be-47af-b2d6-9868faf1f8a8output-5e2eac43-eae4-4cde-b0d3-6a1a51e99600delete",
+          "source": "ece9ab3b-79be-47af-b2d6-9868faf1f8a8",
+          "sourceHandle": "output",
+          "target": "5e2eac43-eae4-4cde-b0d3-6a1a51e99600",
+          "targetHandle": "delete",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-9cde2387-d4bc-431a-9321-26703d3eba08output-d67d9e18-011d-429c-8473-40c0e8867153predict",
+          "source": "9cde2387-d4bc-431a-9321-26703d3eba08",
+          "sourceHandle": "output",
+          "target": "d67d9e18-011d-429c-8473-40c0e8867153",
+          "targetHandle": "predict",
+          "data": {
+            "startColor": "#F8637A",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-e465e034-13a5-44c9-97fc-18c6c16cada7output-d67d9e18-011d-429c-8473-40c0e8867153predict",
+          "source": "e465e034-13a5-44c9-97fc-18c6c16cada7",
+          "sourceHandle": "output",
+          "target": "d67d9e18-011d-429c-8473-40c0e8867153",
+          "targetHandle": "predict",
+          "data": {
+            "startColor": "#F8637A",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    }
+  },
+  "open": [
+    "main"
+  ],
+  "active": "main",
+  "version": "1.0.0",
+  "__class__": "Project"
+}
