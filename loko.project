@@ -1,17 +1,17 @@
 {
-  "name": "project_example",
-  "id": "project_example",
+  "name": "image_use_case",
+  "id": "image_use_case",
   "description": "",
   "created_on": "15/05/2023, 07:33:37",
-  "last_modify": "30/05/2023, 12:05:18",
+  "last_modify": "31/05/2023, 07:42:18",
   "graphs": {
     "main": {
       "nodes": [
         {
           "id": "d67d9e18-011d-429c-8473-40c0e8867153",
           "position": {
-            "x": 1395.3924043922495,
-            "y": 488.7556938740951
+            "x": 1520.9739262176063,
+            "y": 505.99237334032057
           },
           "type": "custom",
           "dragHandle": "#nodeHandle",
@@ -242,16 +242,16 @@
           "selectable": true,
           "draggable": true,
           "positionAbsolute": {
-            "x": 1395.3924043922495,
-            "y": 488.7556938740951
+            "x": 1520.9739262176063,
+            "y": 505.99237334032057
           },
           "__class__": "Node"
         },
         {
           "id": "44a4ece6-b603-4512-8128-bbf9483c9163",
           "position": {
-            "x": 810.8457130206762,
-            "y": 306.6338703083084
+            "x": 639.7101097488664,
+            "y": 311.55863587008713
           },
           "type": "custom",
           "dragHandle": "#nodeHandle",
@@ -331,9 +331,9 @@
                 "debug": false,
                 "read_content": false,
                 "value": {
-                  "name": "subject.zip",
-                  "path": "data/subject.zip",
-                  "parent": "data",
+                  "name": "vehicles.zip",
+                  "path": "data/projects/image_use_case/resources/vehicles.zip",
+                  "parent": "data/projects/image_use_case/resources",
                   "isDir": false,
                   "hidden": false
                 }
@@ -344,8 +344,8 @@
           "selectable": true,
           "draggable": true,
           "positionAbsolute": {
-            "x": 810.8457130206762,
-            "y": 306.6338703083084
+            "x": 639.7101097488664,
+            "y": 311.55863587008713
           },
           "__class__": "Node"
         },
@@ -701,210 +701,6 @@
           "__class__": "Node"
         },
         {
-          "id": "9cde2387-d4bc-431a-9321-26703d3eba08",
-          "position": {
-            "x": 762.303449650679,
-            "y": 443.3647597924633
-          },
-          "type": "custom",
-          "dragHandle": "#nodeHandle",
-          "sourcePosition": "right",
-          "targetPosition": "left",
-          "width": 214,
-          "height": 104,
-          "selected": false,
-          "dragging": false,
-          "data": {
-            "name": "File Reader",
-            "events": null,
-            "description": "### Description\nThe FILE READER component allows the reading of individual files.\n\n### Output\nSetting the **Read Content** parameter to **False**, the output provides the file path in PosixPath format. The component will then need to be connected to other components to read the content, for example *LineReader*.\n\nOn the contrary, setting the **Read Content** parameter to **True**, you can choose whether to read the content in *Binary* format. This format will be selected for reading non-text files.",
-            "inputs": [
-              {
-                "id": "input",
-                "label": "input"
-              }
-            ],
-            "outputs": [
-              {
-                "id": "output",
-                "label": "output"
-              }
-            ],
-            "configured": true,
-            "options": {
-              "group": "Inputs",
-              "args": [
-                {
-                  "name": "comment",
-                  "type": "area",
-                  "label": "Node comment",
-                  "helper": "Use it to explain the usage of this node"
-                },
-                {
-                  "name": "alias",
-                  "type": "text",
-                  "label": "Name",
-                  "helper": "Use this name as an alias"
-                },
-                {
-                  "name": "debug",
-                  "type": "boolean",
-                  "label": "Debug to Console",
-                  "divider": true
-                },
-                {
-                  "name": "value",
-                  "type": "files",
-                  "label": "File",
-                  "fragment": "files",
-                  "validation": {
-                    "required": "Required field"
-                  }
-                },
-                {
-                  "name": "read_content",
-                  "type": "boolean",
-                  "label": "Read content"
-                },
-                {
-                  "name": "binary",
-                  "type": "dynamic",
-                  "label": "Binary",
-                  "dynamicType": {
-                    "true": "boolean"
-                  },
-                  "parent": "read_content"
-                }
-              ],
-              "click": "Send file",
-              "icon": "RiFileList3Fill",
-              "values": {
-                "comment": "",
-                "alias": "abart esterno test",
-                "debug": false,
-                "read_content": false,
-                "value": {
-                  "name": "abarth-595-8.jpg",
-                  "path": "data/abarth-595-8.jpg",
-                  "parent": "data",
-                  "isDir": false,
-                  "hidden": false
-                }
-              }
-            },
-            "locked": null
-          },
-          "selectable": true,
-          "draggable": true,
-          "positionAbsolute": {
-            "x": 762.303449650679,
-            "y": 443.3647597924633
-          },
-          "__class__": "Node"
-        },
-        {
-          "id": "e465e034-13a5-44c9-97fc-18c6c16cada7",
-          "position": {
-            "x": 753.1962057205518,
-            "y": 584.7778482029686
-          },
-          "type": "custom",
-          "dragHandle": "#nodeHandle",
-          "sourcePosition": "right",
-          "targetPosition": "left",
-          "width": 156,
-          "height": 88,
-          "selected": false,
-          "dragging": false,
-          "data": {
-            "name": "File Reader",
-            "events": null,
-            "description": "### Description\nThe FILE READER component allows the reading of individual files.\n\n### Output\nSetting the **Read Content** parameter to **False**, the output provides the file path in PosixPath format. The component will then need to be connected to other components to read the content, for example *LineReader*.\n\nOn the contrary, setting the **Read Content** parameter to **True**, you can choose whether to read the content in *Binary* format. This format will be selected for reading non-text files.",
-            "inputs": [
-              {
-                "id": "input",
-                "label": "input"
-              }
-            ],
-            "outputs": [
-              {
-                "id": "output",
-                "label": "output"
-              }
-            ],
-            "configured": true,
-            "options": {
-              "group": "Inputs",
-              "args": [
-                {
-                  "name": "comment",
-                  "type": "area",
-                  "label": "Node comment",
-                  "helper": "Use it to explain the usage of this node"
-                },
-                {
-                  "name": "alias",
-                  "type": "text",
-                  "label": "Name",
-                  "helper": "Use this name as an alias"
-                },
-                {
-                  "name": "debug",
-                  "type": "boolean",
-                  "label": "Debug to Console",
-                  "divider": true
-                },
-                {
-                  "name": "value",
-                  "type": "files",
-                  "label": "File",
-                  "fragment": "files",
-                  "validation": {
-                    "required": "Required field"
-                  }
-                },
-                {
-                  "name": "read_content",
-                  "type": "boolean",
-                  "label": "Read content"
-                },
-                {
-                  "name": "binary",
-                  "type": "dynamic",
-                  "label": "Binary",
-                  "dynamicType": {
-                    "true": "boolean"
-                  },
-                  "parent": "read_content"
-                }
-              ],
-              "click": "Send file",
-              "icon": "RiFileList3Fill",
-              "values": {
-                "comment": "",
-                "alias": "sedili interno test",
-                "debug": false,
-                "read_content": false,
-                "value": {
-                  "name": "riparazione-sedile-auto.jpg",
-                  "path": "data/riparazione-sedile-auto.jpg",
-                  "parent": "data",
-                  "isDir": false,
-                  "hidden": false
-                }
-              }
-            },
-            "locked": null
-          },
-          "selectable": true,
-          "draggable": true,
-          "positionAbsolute": {
-            "x": 753.1962057205518,
-            "y": 584.7778482029686
-          },
-          "__class__": "Node"
-        },
-        {
           "id": "0a43fafa-390a-41a3-84b6-dc53839681dd",
           "position": {
             "x": 486.4720374175919,
@@ -936,8 +732,8 @@
         {
           "id": "f74a2d18-1563-4648-aff4-7015918e885f",
           "position": {
-            "x": 545.6242603922357,
-            "y": 259.283645008293
+            "x": 576.4040451533525,
+            "y": 255.59007083695894
           },
           "type": "comment",
           "dragHandle": "#commentHandle",
@@ -956,6 +752,218 @@
           "zIndex": -1,
           "selectable": false,
           "connectable": false,
+          "positionAbsolute": {
+            "x": 576.4040451533525,
+            "y": 255.59007083695894
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "949e7ab6-f66b-4f3f-9342-d7d37843186a",
+          "position": {
+            "x": 633.5541741680867,
+            "y": 462.7486172322007
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 197,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Directory Reader",
+            "events": null,
+            "description": "### Description\nThe DIRECTORY READER component allows reading files contained in a folder.\n\n### Output\nThe output provides the path to the files of interest in PosixPath format. You can set **recursive** parameter to True in order to recursively read all folders contained into the main path. Finally, the **suffixes** parameter is used to filter files by extension (e.g. csv, txt, pdf).",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Inputs",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "directories",
+                  "fragment": "files",
+                  "validation": {
+                    "required": "Select at least one directory"
+                  }
+                },
+                {
+                  "name": "recursive",
+                  "type": "boolean"
+                },
+                {
+                  "name": "suffixes",
+                  "type": "text",
+                  "group": "Advanced settings"
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end",
+                  "group": "Advanced settings"
+                }
+              ],
+              "click": "Send file",
+              "icon": "RiFolder3Fill",
+              "values": {
+                "comment": "",
+                "alias": "EXTERNAL VEHICLE test",
+                "debug": false,
+                "recursive": false,
+                "suffixes": "",
+                "propagate": true,
+                "value": {
+                  "name": "test-external",
+                  "path": "data/projects/image_use_case/resources/test-external",
+                  "parent": "data/projects/image_use_case/resources",
+                  "isDir": true,
+                  "hidden": false
+                }
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 633.5541741680867,
+            "y": 462.7486172322007
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "714150c0-c7cd-4697-b972-cd14e4e83b79",
+          "position": {
+            "x": 631.4068709281958,
+            "y": 595.765463618177
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 197,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Directory Reader",
+            "events": null,
+            "description": "### Description\nThe DIRECTORY READER component allows reading files contained in a folder.\n\n### Output\nThe output provides the path to the files of interest in PosixPath format. You can set **recursive** parameter to True in order to recursively read all folders contained into the main path. Finally, the **suffixes** parameter is used to filter files by extension (e.g. csv, txt, pdf).",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Inputs",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "directories",
+                  "fragment": "files",
+                  "validation": {
+                    "required": "Select at least one directory"
+                  }
+                },
+                {
+                  "name": "recursive",
+                  "type": "boolean"
+                },
+                {
+                  "name": "suffixes",
+                  "type": "text",
+                  "group": "Advanced settings"
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end",
+                  "group": "Advanced settings"
+                }
+              ],
+              "click": "Send file",
+              "icon": "RiFolder3Fill",
+              "values": {
+                "comment": "",
+                "alias": "INTERNAL VEHICLE TEST",
+                "debug": false,
+                "recursive": false,
+                "suffixes": "",
+                "propagate": true,
+                "value": {
+                  "name": "text-internal",
+                  "path": "data/projects/image_use_case/resources/text-internal",
+                  "parent": "data/projects/image_use_case/resources",
+                  "isDir": true,
+                  "hidden": false
+                }
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 631.4068709281958,
+            "y": 595.765463618177
+          },
           "__class__": "Node"
         }
       ],
@@ -1003,8 +1011,8 @@
           "__class__": "Edge"
         },
         {
-          "id": "reactflow__edge-9cde2387-d4bc-431a-9321-26703d3eba08output-d67d9e18-011d-429c-8473-40c0e8867153predict",
-          "source": "9cde2387-d4bc-431a-9321-26703d3eba08",
+          "id": "reactflow__edge-949e7ab6-f66b-4f3f-9342-d7d37843186aoutput-d67d9e18-011d-429c-8473-40c0e8867153predict",
+          "source": "949e7ab6-f66b-4f3f-9342-d7d37843186a",
           "sourceHandle": "output",
           "target": "d67d9e18-011d-429c-8473-40c0e8867153",
           "targetHandle": "predict",
@@ -1017,11 +1025,11 @@
           "__class__": "Edge"
         },
         {
-          "id": "reactflow__edge-e465e034-13a5-44c9-97fc-18c6c16cada7output-d67d9e18-011d-429c-8473-40c0e8867153predict",
-          "source": "e465e034-13a5-44c9-97fc-18c6c16cada7",
+          "id": "reactflow__edge-714150c0-c7cd-4697-b972-cd14e4e83b79output-d67d9e18-011d-429c-8473-40c0e8867153evaluate",
+          "source": "714150c0-c7cd-4697-b972-cd14e4e83b79",
           "sourceHandle": "output",
           "target": "d67d9e18-011d-429c-8473-40c0e8867153",
-          "targetHandle": "predict",
+          "targetHandle": "evaluate",
           "data": {
             "startColor": "#F8637A",
             "stopColor": "#888"
